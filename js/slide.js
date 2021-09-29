@@ -1,3 +1,5 @@
+import debounce from './debounce.js';
+
 export default class Slide {
   constructor(slide, wrapper) {
     this.slide = document.querySelector(slide);
@@ -70,12 +72,6 @@ export default class Slide {
     this.wrapper.addEventListener('touchend', this.onEnd);
   }
 
-  bindEvents() {
-    this.onStart = this.onStart.bind(this);
-    this.onMove = this.onMove.bind(this);
-    this.onEnd = this.onEnd.bind(this);
-  }
-
   slidePosition(slideItem) {
     const margin = (this.wrapper.offsetWidth - slideItem.offsetWidth) / 2;
     return -(slideItem.offsetLeft - margin);
@@ -125,12 +121,32 @@ export default class Slide {
     }
   }
 
+  onResize() {
+    setTimeout(() => {
+      this.slideConfig();
+      this.changeSlide(this.index.active);
+    }, 1000);
+  }
+
+  addResizeEvent() {
+    window.addEventListener('resize', this.onResize);
+  }
+
+  bindEvents() {
+    this.onStart = this.onStart.bind(this);
+    this.onMove = this.onMove.bind(this);
+    this.onEnd = this.onEnd.bind(this);
+
+    this.onResize = debounce(this.onResize.bind(this), 200);
+  }
+
   init() {
     if (this.slide && this.wrapper) {
       this.bindEvents();
       this.transition(true);
       this.addSlideEvents();
       this.slideConfig();
+      this.addResizeEvent();
     }
     return this;
   }
