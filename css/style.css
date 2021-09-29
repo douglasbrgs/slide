@@ -1,29 +1,29 @@
 body {
-    margin: 0;
+  margin: 0;
 }
 
 ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 img {
-    display: block;
-    max-width: 100%;
+  display: block;
+  max-width: 100%;
 }
 
 .slide-wrapper {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .slide {
-    display: flex;
+  display: flex;
 }
 
 .slide li {
-    flex-shrink: 0;
-    width: 80vw;
-    max-width: 800px;
-    margin: 0 20px;
+  flex-shrink: 0;
+  width: 80vw;
+  max-width: 800px;
+  margin: 0 20px;
 }
