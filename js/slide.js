@@ -10,6 +10,10 @@ export default class Slide {
     };
   }
 
+  transition(active) {
+    this.slide.style.transition = active ? 'transform .3s' : '';
+  }
+
   updatePosition(clienteX) {
     this.dist.movement = this.dist.startX - clienteX;
     return this.dist.finalPositon - this.dist.movement;
@@ -30,6 +34,7 @@ export default class Slide {
       this.dist.startX = event.changedTouches[0].clientX;
       moveType = 'touchmove';
     }
+    this.transition(false);
     this.wrapper.addEventListener(moveType, this.onMove);
   }
 
@@ -43,6 +48,18 @@ export default class Slide {
     const moveType = event.type === 'mouseup' ? 'mousemove' : 'touchmove';
     this.dist.finalPositon = this.dist.movePosition;
     this.wrapper.removeEventListener(moveType, this.onMove);
+    this.transition(true);
+    this.changeSlideOnEnd();
+  }
+
+  changeSlideOnEnd() {
+    if (this.dist.movement > 100 && this.index.next !== undefined) {
+      this.activeNextSlide();
+    } else if (this.dist.movement < -100 && this.index.prev !== undefined) {
+      this.activePrevSlide();
+    } else {
+      this.changeSlide(this.index.active);
+    }
   }
 
   addSlideEvents() {
@@ -76,9 +93,9 @@ export default class Slide {
   sliderIndexNav(index) {
     const lastIndex = this.slidesArray.length - 1;
     this.index = {
-      prev: index ? null : index - 1,
+      prev: index ? index - 1 : undefined,
       active: index,
-      next: index === lastIndex ? null : index + 1,
+      next: index === lastIndex ? undefined : index + 1,
     };
   }
 
@@ -89,9 +106,22 @@ export default class Slide {
     this.dist.finalPositon = activeSlide.position;
   }
 
+  activePrevSlide() {
+    if (this.index.prev !== undefined) {
+      this.changeSlide(this.index.prev);
+    }
+  }
+
+  activeNextSlide() {
+    if (this.index.next !== undefined) {
+      this.changeSlide(this.index.next);
+    }
+  }
+
   init() {
     if (this.slide && this.wrapper) {
       this.bindEvents();
+      this.transition(true);
       this.addSlideEvents();
       this.slideConfig();
     }
