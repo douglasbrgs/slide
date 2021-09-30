@@ -63,3 +63,53 @@ img {
 [data-control='slide'] li.active a {
   background: #e54;
 }
+
+/*custom controls */
+.custom-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.custom-controls li {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 2px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+
+  opacity: 0.8;
+  transform: scale(0.8);
+  transition: 0.3s;
+
+  cursor: pointer;
+}
+
+.custom-controls li.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* arrow navigation */
+.arrow-nav {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.arrow-nav button {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background: #fb5 url(../img/arrow.svg) center center no-repeat;
+  color: #fff;
+}
+
+.arrow-nav .prev {
+  transform: rotate(180deg);
+}
